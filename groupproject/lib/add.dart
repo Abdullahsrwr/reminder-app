@@ -3,6 +3,9 @@ import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 
 import 'notifications.dart';
+import 'task.dart';
+import 'task_model.dart';
+import 'db_utils.dart';
 
 class AddNoti extends StatefulWidget {
   const AddNoti({Key? key, required this.title}) : super(key: key);
@@ -19,10 +22,10 @@ class _AddNotiState extends State<AddNoti> {
   final _notifications = Notifications();
 
   DateTime _eventDate = DateTime.now();
-  String? _eventName = '';
   String? title = '';
   String? body = '';
   String? payload = '';
+  int? index;
 
   @override
   Widget build(BuildContext context) {
@@ -184,6 +187,9 @@ class _AddNotiState extends State<AddNoti> {
     } else {
       var when = tz.TZDateTime.now(tz.local).add(Duration(seconds: duration));
 
+      Task newTask = Task(id: index, eventName: title, eventDesc: body);
+      TaskModel().insertTask(newTask);
+
       await _notifications.sendNotificationLater(title!, body!, payload!, when);
 
       var snackBar = SnackBar(
@@ -209,5 +215,17 @@ class _AddNotiState extends State<AddNoti> {
 
   String _toTimeString(DateTime date) {
     return '${_twoDigits(date.hour)}:${_twoDigits(date.minute)}';
+  }
+
+  getAllTasks() async {
+    //This needs to be present in any queries, updates, etc.
+    //you do with your database
+    final db = await DBUtils.init();
+    final List<Map<String, dynamic>> maps = await db.query('task_list');
+    List result = [];
+    for (int i = 0; i < maps.length; i++) {
+      result.add(Task.fromMap(maps[i]));
+    }
+    index = result.length - 1;
   }
 }

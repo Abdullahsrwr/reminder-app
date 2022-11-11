@@ -3,6 +3,9 @@ import 'dart:io';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart';
 
+import 'task.dart';
+import 'task_model.dart';
+
 class Notifications {
   final channelId = "testNotif";
   final channelName = "Test Notification";

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:groupproject/db_utils.dart';
 import 'notifications.dart';
 import 'add.dart';
 import 'locations.dart';
+import 'task_model.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,6 +34,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
+    DBUtils.init();
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -79,6 +82,9 @@ class _MyHomePageState extends State<MyHomePage> {
     for (var pendNot in pendingNotificationRequests) {
       print("${pendNot.id} / ${pendNot.title} / ${pendNot.body}");
     }
+
+    print("Tasks in Database:");
+    TaskModel().getAllTasks();
   }
 
   _askDialog() {
