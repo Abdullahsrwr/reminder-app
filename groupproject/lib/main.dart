@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:groupproject/db_utils.dart';
-import 'notifications.dart';
-import 'add.dart';
-import 'locations.dart';
-import 'task_model.dart';
+import 'package:groupproject/database/db_utils.dart';
+import 'controller/notifications.dart';
+import 'controller/add.dart';
+import 'views/locations.dart';
+import 'models/task_model.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_manager.dart';
+import 'database/firebase_manager.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -36,57 +37,59 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     DBUtils.init();
-    return FutureBuilder(future:Firebase.initializeApp(), builder: (context, snapshot){
-      if (snapshot.hasError){print ("Error intializing Firebase");}
-      if (snapshot.connectionState == ConnectionState.done)
-      {
-        print ("Successfully connected to Firebase");
-      
+    Firebase.initializeApp();
+    return FutureBuilder(
+        future: Firebase.initializeApp(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            print("Error intializing Firebase");
+          }
+          if (snapshot.connectionState == ConnectionState.done) {
+            print("Successfully connected to Firebase");
 
-    
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.delete_forever),
-            onPressed: () {
-              Notifications().cancelAllNotifications();
-              removeAllFireDB();
-            },
-          ),
-        ],
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: _showPendingNotifications,
-              child: Text(
-                "View Task List",
+            return Scaffold(
+              appBar: AppBar(
+                title: Text(widget.title),
+                actions: [
+                  IconButton(
+                    icon: const Icon(Icons.delete_forever),
+                    onPressed: () {
+                      Notifications().cancelAllNotifications();
+                      removeAllFireDB();
+                      TaskModel().deleteAllTasks();
+                    },
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return _askDialog();
-              });
-        },
-        tooltip: 'Add task',
-        child: const Icon(Icons.add),
-      ),
-    );}
-    else{
-      return CircularProgressIndicator();
-    }
-    }
-    );
+              body: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: _showPendingNotifications,
+                      child: Text(
+                        "View Task List",
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              floatingActionButton: FloatingActionButton(
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return _askDialog();
+                      });
+                },
+                tooltip: 'Add task',
+                child: const Icon(Icons.add),
+              ),
+            );
+          } else {
+            return CircularProgressIndicator();
+          }
+        });
   }
 
   Future _showPendingNotifications() async {
@@ -102,8 +105,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
     print("Tasks in Database:");
     TaskModel().getAllTasks();
-
-
   }
 
   _askDialog() {

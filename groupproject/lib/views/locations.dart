@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'notifications.dart';
-import 'add.dart';
+import '../controller/notifications.dart';
+import '../controller/add.dart';
 
 class LocationPage extends StatefulWidget {
   const LocationPage({super.key, required this.title});

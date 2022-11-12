@@ -3,9 +3,9 @@ import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 
 import 'notifications.dart';
-import 'task.dart';
-import 'task_model.dart';
-import 'db_utils.dart';
+import '../models/task.dart';
+import '../models/task_model.dart';
+import '../database/db_utils.dart';
 
 class AddNoti extends StatefulWidget {
   const AddNoti({Key? key, required this.title}) : super(key: key);
