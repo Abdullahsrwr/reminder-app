@@ -4,7 +4,8 @@ import 'notifications.dart';
 import 'add.dart';
 import 'locations.dart';
 import 'task_model.dart';
-
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_manager.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -35,6 +36,14 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     DBUtils.init();
+    return FutureBuilder(future:Firebase.initializeApp(), builder: (context, snapshot){
+      if (snapshot.hasError){print ("Error intializing Firebase");}
+      if (snapshot.connectionState == ConnectionState.done)
+      {
+        print ("Successfully connected to Firebase");
+      
+
+    
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -43,6 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
             icon: const Icon(Icons.delete_forever),
             onPressed: () {
               Notifications().cancelAllNotifications();
+              removeAllFireDB();
             },
           ),
         ],
@@ -71,6 +81,11 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Add task',
         child: const Icon(Icons.add),
       ),
+    );}
+    else{
+      return CircularProgressIndicator();
+    }
+    }
     );
   }
 

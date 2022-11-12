@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Task{
   int? id;
   String? eventName;
   String? eventDesc;
+  DocumentReference? reference;
 
   Task({this.id, this.eventName, this.eventDesc});
 
@@ -16,7 +17,7 @@ class Task{
     };
   }
 
-  Task.fromMap(Map map){
+  Task.fromMap(Map map, {this.reference}){
     this.id = map['id'];
     this.eventName = map['name'];
     this.eventDesc = map['desc'];
