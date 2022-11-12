@@ -4,7 +4,7 @@ Group members (3-5) (no Student IDs, only names and github usernames):
 
 1. 
 
-2. 
+2.  Evan Curtis (evan-curtis)
 
 3.  Adyan Reza (AdyanReza)
 
