@@ -25,12 +25,17 @@ Future addToFireDB(Task task) async{
   }
 
 Future removeAllFireDB() async{
-  print ("Removing all firestone tasks");
+  print ("Removing all firestore tasks");
 
   var taskInstances = await FirebaseFirestore.instance.collection('tasks').get();
   for (var doc in taskInstances.docs){
     await doc.reference.delete();
   }
+}
 
-
+Future getFireTasks() async{
+  QuerySnapshot query = await FirebaseFirestore.instance.collection('tasks').get();
+  var taskList = query.docs.map((doc) => doc.data()).toList();
+  print (taskList);
+  // return print(await FirebaseFirestore.instance.collection('tasks').get());
 }

@@ -97,9 +97,13 @@ class _MyHomePageState extends State<MyHomePage> {
     for (var pendNot in pendingNotificationRequests) {
       print("${pendNot.id} / ${pendNot.title} / ${pendNot.body}");
     }
+    print("Tasks in Cloud Firestore:");
+    getFireTasks();
 
     print("Tasks in Database:");
     TaskModel().getAllTasks();
+
+
   }
 
   _askDialog() {
