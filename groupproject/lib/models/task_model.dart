@@ -16,6 +16,7 @@ class TaskModel {
   }
 
   Future getAllTasks() async {
+    fireTaskList = [];
     //This needs to be present in any queries, updates, etc.
     //you do with your database
     final db = await DBUtils.init();

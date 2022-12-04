@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:groupproject/database/firebase_manager.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 
@@ -187,8 +188,9 @@ class _AddNotiState extends State<AddNoti> {
     } else {
       var when = tz.TZDateTime.now(tz.local).add(Duration(seconds: duration));
 
-      Task newTask = Task(id: index, eventName: title, eventDesc: body);
+      Task newTask = Task(id: index, eventName: title, eventDesc: body, date: _eventDate.millisecondsSinceEpoch);
       TaskModel().insertTask(newTask);
+      fireTaskList.add(newTask);
 
       await _notifications.sendNotificationLater(title!, body!, payload!, when);
 
