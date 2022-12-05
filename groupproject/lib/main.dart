@@ -1,17 +1,31 @@
+import 'dart:collection';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:groupproject/database/db_utils.dart';
+import 'package:groupproject/views/mapView.dart';
 import 'controller/notifications.dart';
 import 'controller/add.dart';
-import 'views/locations.dart';
+import 'models/task.dart';
+import 'controller/locations.dart';
 import 'models/task_model.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'database/firebase_manager.dart';
 import 'controller/task_table.dart';
 import 'package:groupproject/controller/task_chart.dart';
 
-void main() {
+import 'package:flutter_map/flutter_map.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:intl/intl.dart';
+import 'views/mapmarker.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  DBUtils.init();
+  await Firebase.initializeApp();
+  await fillFireTaskList();
   runApp(const MyApp());
 }
 
@@ -38,125 +52,158 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  bool first = true;
+  late MapController _mapController;
+  bool havePermission = false;
+  List<Task> firebaseList = [];
+  @override
+  void initState() {
+    super.initState();
+    _mapController = MapController();
+    askLocation();
+  }
+
+  askLocation() async {
+    await Geolocator.isLocationServiceEnabled().then((value) => null);
+    await Geolocator.requestPermission().then((value) => null);
+    await Geolocator.checkPermission().then((LocationPermission permission) {
+      print("Check Location Permission: $permission");
+    });
+    await Geolocator.isLocationServiceEnabled()
+        .then((value) => havePermission = value);
+    if (havePermission == false) {
+      await askLocation();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    DBUtils.init();
-    Firebase.initializeApp();
-    
-    return FutureBuilder(
-        future: Firebase.initializeApp(),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            print("Error intializing Firebase");
-          }
-          if (snapshot.connectionState == ConnectionState.done) {
-            print("Successfully connected to Firebase");
-            if (first = true){
-              Future.delayed(Duration(seconds: 1), (){
-                fillFireTaskList();
-                first = false;
+    firebaseList = [];
+    for (var i = 0; i < fireTaskList.length; i++) {
+      firebaseList.add(fireTaskList[i]);
+    }
+    print(firebaseList);
+    setState(() {});
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+        actions: [
+          IconButton(
+              onPressed: () {
+                setState(() {});
+              },
+              icon: Icon(Icons.refresh)),
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => showTable(
+                          title: 'Schedule',
+                          data: firebaseList,
+                        )),
+              );
+            },
+            icon: Icon(Icons.calendar_month),
+          ),
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => showChart(
+                          title: 'The Week Ahead',
+                          data: firebaseList,
+                        )),
+              );
+            },
+            icon: Icon(Icons.bar_chart),
+          ),
+          IconButton(
+            icon: const Icon(Icons.delete_forever),
+            onPressed: () async {
+              await Notifications().cancelAllNotifications();
+              await removeAllFireDB();
+              await TaskModel().deleteAllTasks();
+              await fillFireTaskList();
+              await Future.delayed(Duration(seconds: 1), () {
+                setState(() {});
               });
-            }
-            
-            _showPendingNotifications();
+            },
+          ),
+        ],
+      ),
+      body: ListView.separated(
+        padding: const EdgeInsets.all(4),
+        itemCount: firebaseList.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Dismissible(
+              background: Container(color: Color.fromARGB(255, 43, 255, 0)),
+              secondaryBackground:
+                  Container(color: Color.fromARGB(255, 255, 0, 0)),
+              key: UniqueKey(),
+              onDismissed: (DismissDirection direction) async {
+                if (direction == DismissDirection.endToStart) {
+                  await getFireTasks();
+                  await fillFireTaskList();
+                  await removeSelectedFireDB(fireTaskList[index]);
+                  await Notifications()
+                      .cancelNotification(firebaseList[index].id!);
+                  await TaskModel().deleteTask(firebaseList[index].id!);
 
-            return Scaffold(
-              appBar: AppBar(
-                title: Text(widget.title),
-                actions: [
-                  IconButton(onPressed:
-                   (){
+                  setState(() {});
+                } else if (direction == DismissDirection.startToEnd) {
+                  if (firebaseList[index].streetName != null) {
                     setState(() {});
-                    }
-                   , 
-                  icon: Icon(Icons.refresh)),
-
-                  IconButton(
-                    onPressed: (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => showTable(
-                            title: 'Schedule',
-                            data: fireTaskList,
-                          )),
-                        );
-                    },
-                    icon: Icon(Icons.calendar_month),
-                  ),
-
-                  IconButton(
-                    onPressed: (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => showChart(
-                            title: 'Chart',
-                            data: fireTaskList,
-                          )),
-                        );
-                    },
-                    icon: Icon(Icons.bar_chart),
-                  ),
-                   
-                  IconButton(
-                    icon: const Icon(Icons.delete_forever),
-                    onPressed: () {
-                      Notifications().cancelAllNotifications();
-                      removeAllFireDB();
-                      TaskModel().deleteAllTasks();
-                      Future.delayed(Duration(seconds: 1), (){
-                        setState(() {});
-                      });
-                    },
-                  ),
-                ],
-              ),
-              body: 
-                ListView.separated(
-                  padding: const EdgeInsets.all(4),
-                  itemCount: fireTaskList.length,
-                  itemBuilder: (BuildContext context, int index){
-                    return Container(
-                      height: 90,
-                      child:
-                       Text(
-                        "\n" + "\t"*5 + "Task: " + fireTaskList[index].eventName.toString() + "\n" + "\t"*5 + "Details: " + fireTaskList[index].eventDesc.toString()
-                       , style:const TextStyle(fontSize: 18, fontFamily: 'Times New Roman' ),),
-                      color: Colors.lightBlue[100],
-                      
-
+                    locationData = [
+                      firebaseList[index].streetNumber! +
+                          " " +
+                          firebaseList[index].streetName! +
+                          ", " +
+                          firebaseList[index].city! +
+                          ", " +
+                          firebaseList[index].province!
+                    ];
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MapPage(title: 'Task Map')),
                     );
-                  }, separatorBuilder: (BuildContext context, int index)=>const Divider(),
-                ),
-              floatingActionButton: FloatingActionButton(
-                onPressed: () {
-                  
-                    print (fireTaskList.length);
-                    for (int i=0; i<fireTaskList.length; i++){
-                      print (fireTaskList[i]);
-                    }
-                  
-                  
-                    
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return _askDialog();
-                      });
-
-                      
-                  
-                },
-                tooltip: 'Add task',
-                child: const Icon(Icons.add),
-              ),
-            );
-          } else {
-            return CircularProgressIndicator();
+                  } else {
+                    setState(() {});
+                  }
+                }
+              },
+              child: ListTile(
+                leading: firebaseList[index].streetName == null
+                    ? Icon(Icons.no_transfer_rounded)
+                    : Icon(Icons.mode_of_travel_rounded),
+                title: Text(firebaseList[index].eventName!),
+                subtitle: Text(firebaseList[index].eventDesc!),
+                trailing: Text(DateFormat('EEE, M/d/y (hh:mm)').format(
+                    DateTime.fromMillisecondsSinceEpoch(
+                        firebaseList[index].date!))),
+                onTap: () {},
+              ));
+        },
+        separatorBuilder: (BuildContext context, int index) => const Divider(),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          print(firebaseList.length);
+          for (int i = 0; i < firebaseList.length; i++) {
+            print(firebaseList[i]);
           }
-        });
+
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return _askDialog();
+              });
+        },
+        tooltip: 'Add task',
+        child: const Icon(Icons.add),
+      ),
+    );
   }
 
   Future _showPendingNotifications() async {
@@ -181,7 +228,7 @@ class _MyHomePageState extends State<MyHomePage> {
       actions: [
         TextButton(
           onPressed: () {
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                   builder: (context) => LocationPage(
@@ -200,7 +247,6 @@ class _MyHomePageState extends State<MyHomePage> {
                         title: 'Add Task',
                       )),
             );
-            
           },
           child: Text('No'),
         ),

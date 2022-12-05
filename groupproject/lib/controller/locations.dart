@@ -7,18 +7,17 @@ import 'notifications.dart';
 import '../models/task.dart';
 import '../models/task_model.dart';
 import '../database/db_utils.dart';
-import '../database/firebase_manager.dart';
 
-class AddNoti extends StatefulWidget {
-  const AddNoti({Key? key, required this.title}) : super(key: key);
+class LocationPage extends StatefulWidget {
+  const LocationPage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
   @override
-  State<AddNoti> createState() => _AddNotiState();
+  State<LocationPage> createState() => _LocationPageState();
 }
 
-class _AddNotiState extends State<AddNoti> {
+class _LocationPageState extends State<LocationPage> {
   final _formKey = GlobalKey<FormState>();
 
   final _notifications = Notifications();
@@ -27,6 +26,10 @@ class _AddNotiState extends State<AddNoti> {
   String? title = '';
   String? body = '';
   String? payload = '';
+  String? streetNumber = '';
+  String? streetName = '';
+  String? city = '';
+  String? province = '';
   int? index;
 
   @override
@@ -39,8 +42,10 @@ class _AddNotiState extends State<AddNoti> {
         title: Text(widget.title),
         actions: [],
       ),
-      body: Builder(
-        builder: _formBuilder,
+      body: SingleChildScrollView(
+        child: Builder(
+          builder: _formBuilder,
+        ),
       ),
     );
   }
@@ -54,7 +59,7 @@ class _AddNotiState extends State<AddNoti> {
         children: [
           Row(
             children: [
-              Text('Task:           '),
+              Text('Task:'),
               Expanded(
                 child: TextFormField(
                   decoration: const InputDecoration(
@@ -77,6 +82,66 @@ class _AddNotiState extends State<AddNoti> {
                   ),
                   onChanged: (value) {
                     body = value;
+                  },
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Text('Street Number:'),
+              Expanded(
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: "",
+                  ),
+                  onChanged: (value) {
+                    streetNumber = value;
+                  },
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Text('Street Name:'),
+              Expanded(
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: "",
+                  ),
+                  onChanged: (value) {
+                    streetName = value;
+                  },
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Text('City:'),
+              Expanded(
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: "",
+                  ),
+                  onChanged: (value) {
+                    city = value;
+                  },
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Text('Province:'),
+              Expanded(
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: "",
+                  ),
+                  onChanged: (value) {
+                    province = value;
                   },
                 ),
               ),
@@ -154,7 +219,7 @@ class _AddNotiState extends State<AddNoti> {
                 ),
               ),
               ElevatedButton(
-                onPressed: () async {
+                onPressed: () {
                   Navigator.pop(context);
                 },
                 child: Text(
@@ -186,7 +251,11 @@ class _AddNotiState extends State<AddNoti> {
           id: index,
           eventName: title,
           eventDesc: body,
-          date: _eventDate.millisecondsSinceEpoch);
+          date: _eventDate.millisecondsSinceEpoch,
+          streetNumber: streetNumber,
+          streetName: streetName,
+          city: city,
+          province: province);
       TaskModel().insertTask(newTask);
       fireTaskList.add(newTask);
 
@@ -194,7 +263,7 @@ class _AddNotiState extends State<AddNoti> {
 
       var snackBar = SnackBar(
         content: Text(
-          "Reminder Notification $index Will Be Sent At $_eventDate",
+          "Reminder Notification Will Be Sent At $_eventDate",
         ),
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
