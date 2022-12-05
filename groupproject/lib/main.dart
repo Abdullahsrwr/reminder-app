@@ -9,6 +9,7 @@ import 'models/task_model.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'database/firebase_manager.dart';
 import 'controller/task_table.dart';
+import 'package:groupproject/controller/task_chart.dart';
 
 void main() {
   runApp(const MyApp());
@@ -65,7 +66,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 title: Text(widget.title),
                 actions: [
                   IconButton(onPressed:
-
                    (){
                     setState(() {});
                     }
@@ -84,6 +84,20 @@ class _MyHomePageState extends State<MyHomePage> {
                         );
                     },
                     icon: Icon(Icons.calendar_month),
+                  ),
+
+                  IconButton(
+                    onPressed: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => showChart(
+                            title: 'Chart',
+                            data: fireTaskList,
+                          )),
+                        );
+                    },
+                    icon: Icon(Icons.bar_chart),
                   ),
                    
                   IconButton(

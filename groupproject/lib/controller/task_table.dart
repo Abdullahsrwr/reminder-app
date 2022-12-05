@@ -12,11 +12,9 @@ class showTable extends StatefulWidget {
   State<showTable> createState() => _showTableState();
 }
 
-
-
 class _showTableState extends State<showTable>{
   final _formKey = GlobalKey<FormState>();
-
+  var weekdays = ['M', 'T', 'W', 'Th', 'F', 'Sa', 'Su'];
   @override
   Widget build(BuildContext context) {
     
@@ -30,12 +28,15 @@ class _showTableState extends State<showTable>{
       body: DataTable(
         
         columns: [
-          DataColumn(
-            label: Text("Task Name")
-            ),
-          DataColumn(
-            label: Text("Day")
-            )
+          
+          DataColumn(label: Text("Today")),
+          DataColumn(label: Text(weekdays[((DateTime.now().weekday+1)-1)%7])),
+          DataColumn(label: Text(weekdays[((DateTime.now().weekday+2)-1)%7])),
+          DataColumn(label: Text(weekdays[((DateTime.now().weekday+3)-1)%7])),
+          DataColumn(label: Text(weekdays[((DateTime.now().weekday+4)-1)%7])),
+          DataColumn(label: Text(weekdays[((DateTime.now().weekday+5)-1)%7])),
+          DataColumn(label: Text(weekdays[((DateTime.now().weekday+6)-1)%7])),         
+          
         ],
         rows: 
         buildRows()
@@ -59,21 +60,45 @@ class _showTableState extends State<showTable>{
       DateTime? date = DateTime.fromMillisecondsSinceEpoch(seconds);
       print (date);
       var months = ['Jan', 'Feb', 'March', 'April', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+      print (DateTime.now().day + 1 == date.day);
       
 
       dataRows.add(
         DataRow(
           cells: <DataCell>[
             DataCell(
-              Text(title.toString())
+                Text(dayFinder(date, 0, element).toString())
               ),
             DataCell(
-              Text(months[date.month-1] + " " + date.day.toString())
-            )
+              Text(dayFinder(date, 1, element).toString())
+            ),
+            DataCell(
+              Text(dayFinder(date, 2, element).toString())
+              ),
+            DataCell(
+              Text(dayFinder(date, 3, element).toString())
+              ),
+            DataCell(
+              Text(dayFinder(date, 4, element).toString())
+              ),
+            DataCell(
+              Text(dayFinder(date, 5, element).toString())
+              ),
+            DataCell(
+              Text(dayFinder(date, 6, element).toString())
+              ),
           ]
         ));
      });
      return dataRows;
   }
 
+  String? dayFinder(DateTime d, int daysAway, Task t){
+    if (DateTime.now().day + daysAway == d.day){
+      return t.eventName;
+    }
+    else{
+      return "";
+    }
+  }
 }
