@@ -1,0 +1,23 @@
+{
+    "page_titles": {
+        "home_page": "Page d'accueil",
+        "schedule_page": "Programme",
+        "chart_page": "La semaine à venir",
+        "task_add": "Ajouter une tâche",
+        "task_add_loc": "Ajouter une tâche avec emplacement",
+        "map": "Destination de la tâche"
+    },
+
+    "add_task_field": {
+        "task": "Tâche:",
+        "desc": "La description:",
+        "date": "Date",
+        "time": "Temps",
+        "save": "Sauvegarder",
+        "back": "Retourner",
+        "street_num": "Numéro de rue:",
+        "street": "Nom de rue:",
+        "city": "Ville:",
+        "province": "Province:"
+    }
+}

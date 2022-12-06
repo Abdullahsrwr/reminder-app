@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:groupproject/database/firebase_manager.dart';
+import 'package:groupproject/main.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 
@@ -8,6 +9,11 @@ import '../models/task.dart';
 import '../models/task_model.dart';
 import '../database/db_utils.dart';
 import '../database/firebase_manager.dart';
+
+
+import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:flutter_i18n/flutter_i18n_delegate.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 class AddNoti extends StatefulWidget {
   const AddNoti({Key? key, required this.title}) : super(key: key);
@@ -36,6 +42,10 @@ class _AddNotiState extends State<AddNoti> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: BackButton(
+          onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(
+            title: FlutterI18n.translate(context, "Home Page"))));},
+        ),
         title: Text(widget.title),
         actions: [],
       ),
@@ -54,7 +64,7 @@ class _AddNotiState extends State<AddNoti> {
         children: [
           Row(
             children: [
-              Text('Task:           '),
+              Text(FlutterI18n.translate(context, "add_task_field.task")),
               Expanded(
                 child: TextFormField(
                   decoration: const InputDecoration(
@@ -69,7 +79,7 @@ class _AddNotiState extends State<AddNoti> {
           ),
           Row(
             children: [
-              Text('Description:'),
+              Text(FlutterI18n.translate(context, "add_task_field.desc")),
               Expanded(
                 child: TextFormField(
                   decoration: const InputDecoration(
@@ -86,7 +96,7 @@ class _AddNotiState extends State<AddNoti> {
             child: Row(
               children: [
                 ElevatedButton(
-                  child: Text('Date'),
+                  child: Text(FlutterI18n.translate(context, "add_task_field.date")),
                   onPressed: () {
                     showDatePicker(
                       context: context,
@@ -135,7 +145,7 @@ class _AddNotiState extends State<AddNoti> {
                       });
                     });
                   },
-                  child: Text('Time'),
+                  child: Text(FlutterI18n.translate(context, "add_task_field.time")),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10.0),
@@ -150,15 +160,15 @@ class _AddNotiState extends State<AddNoti> {
               ElevatedButton(
                 onPressed: _notificationLater,
                 child: Text(
-                  "Save",
+                  FlutterI18n.translate(context, "add_task_field.save"),
                 ),
               ),
               ElevatedButton(
                 onPressed: () async {
-                  Navigator.pop(context);
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(title: "Home Page")));
                 },
                 child: Text(
-                  "Go Back",
+                  FlutterI18n.translate(context, "add_task_field.back"),
                 ),
               ),
             ],

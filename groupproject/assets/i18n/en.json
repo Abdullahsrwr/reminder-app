@@ -1,0 +1,23 @@
+{
+    "page_titles": {
+        "home_page": "Home Page",
+        "schedule_page": "Schedule",
+        "chart_page": "The Week Ahead",
+        "task_add": "Add Task",
+        "task_add_loc": "Add Task with Location",
+        "map": "Task Destination"
+    },
+
+    "add_task_field": {
+        "task": "Task:",
+        "desc": "Description:",
+        "date": "Date",
+        "time": "Time",
+        "save": "Save",
+        "back": "Go Back",
+        "street_num": "Street Number:",
+        "street": "Street Name:",
+        "city": "City:",
+        "province": "Province:"
+    }
+}

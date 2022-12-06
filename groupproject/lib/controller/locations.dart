@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:groupproject/database/firebase_manager.dart';
+import 'package:groupproject/main.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 
@@ -7,6 +8,9 @@ import 'notifications.dart';
 import '../models/task.dart';
 import '../models/task_model.dart';
 import '../database/db_utils.dart';
+
+import 'package:flutter_i18n/flutter_i18n.dart';
+
 
 class LocationPage extends StatefulWidget {
   const LocationPage({Key? key, required this.title}) : super(key: key);
@@ -39,6 +43,10 @@ class _LocationPageState extends State<LocationPage> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: BackButton(
+          onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(
+            title: FlutterI18n.translate(context, "page_titles.home_page"))));},
+        ),
         title: Text(widget.title),
         actions: [],
       ),
@@ -59,7 +67,7 @@ class _LocationPageState extends State<LocationPage> {
         children: [
           Row(
             children: [
-              Text('Task:'),
+              Text(FlutterI18n.translate(context, "add_task_field.task")),
               Expanded(
                 child: TextFormField(
                   decoration: const InputDecoration(
@@ -74,7 +82,7 @@ class _LocationPageState extends State<LocationPage> {
           ),
           Row(
             children: [
-              Text('Description:'),
+              Text(FlutterI18n.translate(context, "add_task_field.desc")),
               Expanded(
                 child: TextFormField(
                   decoration: const InputDecoration(
@@ -89,7 +97,7 @@ class _LocationPageState extends State<LocationPage> {
           ),
           Row(
             children: [
-              Text('Street Number:'),
+              Text(FlutterI18n.translate(context, "add_task_field.street_num")),
               Expanded(
                 child: TextFormField(
                   decoration: const InputDecoration(
@@ -104,7 +112,7 @@ class _LocationPageState extends State<LocationPage> {
           ),
           Row(
             children: [
-              Text('Street Name:'),
+              Text(FlutterI18n.translate(context, "add_task_field.street")),
               Expanded(
                 child: TextFormField(
                   decoration: const InputDecoration(
@@ -119,7 +127,7 @@ class _LocationPageState extends State<LocationPage> {
           ),
           Row(
             children: [
-              Text('City:'),
+              Text(FlutterI18n.translate(context, "add_task_field.city")),
               Expanded(
                 child: TextFormField(
                   decoration: const InputDecoration(
@@ -134,7 +142,7 @@ class _LocationPageState extends State<LocationPage> {
           ),
           Row(
             children: [
-              Text('Province:'),
+              Text(FlutterI18n.translate(context, "add_task_field.province")),
               Expanded(
                 child: TextFormField(
                   decoration: const InputDecoration(
@@ -151,7 +159,7 @@ class _LocationPageState extends State<LocationPage> {
             child: Row(
               children: [
                 ElevatedButton(
-                  child: Text('Date'),
+                  child: Text(FlutterI18n.translate(context, "add_task_field.date")),
                   onPressed: () {
                     showDatePicker(
                       context: context,
@@ -200,7 +208,7 @@ class _LocationPageState extends State<LocationPage> {
                       });
                     });
                   },
-                  child: Text('Time'),
+                  child: Text(FlutterI18n.translate(context, "add_task_field.time")),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10.0),
@@ -215,15 +223,15 @@ class _LocationPageState extends State<LocationPage> {
               ElevatedButton(
                 onPressed: _notificationLater,
                 child: Text(
-                  "Save",
+                  FlutterI18n.translate(context, "add_task_field.save"),
                 ),
               ),
               ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
+                onPressed: () async {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(title: "Home Page")));
                 },
                 child: Text(
-                  "Go Back",
+                  FlutterI18n.translate(context, "add_task_field.back"),
                 ),
               ),
             ],

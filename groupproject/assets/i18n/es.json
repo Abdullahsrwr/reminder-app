@@ -1,0 +1,23 @@
+{
+    "page_titles": {
+        "home_page": "Página de inicio",
+        "schedule_page": "Calendario",
+        "chart_page": "La semana que viene",
+        "task_add": "Agregar tarea",
+        "task_add_loc": "Agregar tarea con ubicación",
+        "map": "Destino de la tarea"
+    },
+
+    "add_task_field": {
+        "task": "Tarea:",
+        "desc": "Descripción:",
+        "date": "Fecha",
+        "time": "Tiempo",
+        "save": "Ahorrar",
+        "back": "Regresa",
+        "street_num": "Número de calle:",
+        "street": "Nombre de la calle:",
+        "city": "Ciudad:",
+        "province": "Provincia:"
+    }
+}

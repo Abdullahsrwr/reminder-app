@@ -21,6 +21,10 @@ import 'package:geocoding/geocoding.dart';
 import 'package:intl/intl.dart';
 import 'views/mapmarker.dart';
 
+import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:flutter_i18n/flutter_i18n_delegate.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   DBUtils.init();
@@ -39,6 +43,27 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: const MyHomePage(title: 'Home Page'),
+      localizationsDelegates: [
+        FlutterI18nDelegate(
+          missingTranslationHandler: (key, locale){
+            print ('MISSING KEY: $key, Language Code: ${locale!.languageCode}');
+          },
+          translationLoader: FileTranslationLoader(
+            useCountryCode: false,
+            fallbackFile: 'en',
+            basePath: 'assets/i18n'
+          ),
+          
+        ),
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        Locale('en'),
+        Locale('fr'),
+        Locale('es'),
+      ],
+      
     );
   }
 }
@@ -83,9 +108,11 @@ class _MyHomePageState extends State<MyHomePage> {
     }
     print(firebaseList);
     setState(() {});
+    
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        automaticallyImplyLeading: false,
+        title: Text(FlutterI18n.translate(context, "page_titles.home_page")),
         actions: [
           IconButton(
               onPressed: () {
@@ -98,7 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => showTable(
-                          title: 'Schedule',
+                          title: FlutterI18n.translate(context, "page_titles.schedule_page"),
                           data: firebaseList,
                         )),
               );
@@ -111,7 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => showChart(
-                          title: 'The Week Ahead',
+                          title: FlutterI18n.translate(context, "page_titles.chart_page"),
                           data: firebaseList,
                         )),
               );
@@ -166,7 +193,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => MapPage(title: 'Task Map')),
+                          builder: (context) => MapPage(title: FlutterI18n.translate(context, "page_titles.map"))),
                     );
                   } else {
                     setState(() {});
@@ -187,7 +214,32 @@ class _MyHomePageState extends State<MyHomePage> {
         },
         separatorBuilder: (BuildContext context, int index) => const Divider(),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: 
+        Wrap(
+          spacing: 250.0,
+          direction: Axis.horizontal,
+          children: <Widget> [
+            FloatingActionButton(
+              heroTag: "lang_btn",
+        
+        onPressed: () {
+          print(firebaseList.length);
+          for (int i = 0; i < firebaseList.length; i++) {
+            print(firebaseList[i]);
+          }
+
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return _askDialogLang();
+              });
+          
+        },
+        tooltip: 'Add task',
+        child: const Icon(Icons.language),
+      ), 
+            FloatingActionButton(
+              heroTag: "add_btn",
         onPressed: () {
           print(firebaseList.length);
           for (int i = 0; i < firebaseList.length; i++) {
@@ -199,10 +251,14 @@ class _MyHomePageState extends State<MyHomePage> {
               builder: (BuildContext context) {
                 return _askDialog();
               });
+          
         },
         tooltip: 'Add task',
         child: const Icon(Icons.add),
-      ),
+      ), 
+          
+          ],
+        )  
     );
   }
 
@@ -232,7 +288,7 @@ class _MyHomePageState extends State<MyHomePage> {
               context,
               MaterialPageRoute(
                   builder: (context) => LocationPage(
-                        title: 'Add Task with Location',
+                        title: FlutterI18n.translate(context, "page_titles.task_add_loc"),
                       )),
             );
           },
@@ -244,11 +300,50 @@ class _MyHomePageState extends State<MyHomePage> {
               context,
               MaterialPageRoute(
                   builder: (context) => AddNoti(
-                        title: 'Add Task',
+                        title: FlutterI18n.translate(context, "page_titles.task_add"),
                       )),
             );
+            
           },
           child: Text('No'),
+        ),
+      ],
+    );
+  }
+  _askDialogLang() {
+    return AlertDialog(
+      title: Text('Language Selection'),
+      content: Text('Please select your language'),
+      actions: [
+        TextButton(
+          onPressed: () async {
+            Locale newLocale = Locale('en');
+                await FlutterI18n.refresh(context, newLocale);
+                setState(() {
+                Navigator.pop(context);
+                });
+          },
+          child: Text('English'),
+        ),
+        TextButton(
+          onPressed: () async {
+            Locale newLocale = Locale('fr');
+                await FlutterI18n.refresh(context, newLocale);
+                setState(() {
+                Navigator.pop(context);
+                });
+          },
+          child: Text('French'),
+        ),
+        TextButton(
+          onPressed: () async {
+            Locale newLocale = Locale('es');
+                await FlutterI18n.refresh(context, newLocale);
+                setState(() {
+                Navigator.pop(context);
+                });
+          },
+          child: Text('Spanish'),
         ),
       ],
     );
