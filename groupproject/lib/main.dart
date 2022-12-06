@@ -279,8 +279,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   _askDialog() {
     return AlertDialog(
-      title: Text('Task Type'),
-      content: Text('Would you like to associate a location with your task?'),
+      title: Text(FlutterI18n.translate(context, "dialogue.loc_title")),
+      content: Text(FlutterI18n.translate(context, "dialogue.location")),
       actions: [
         TextButton(
           onPressed: () {
@@ -312,8 +312,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
   _askDialogLang() {
     return AlertDialog(
-      title: Text('Language Selection'),
-      content: Text('Please select your language'),
+      title: Text(FlutterI18n.translate(context, "dialogue.lang_title")),
+      content: Text(FlutterI18n.translate(context, "dialogue.language")),
       actions: [
         TextButton(
           onPressed: () async {

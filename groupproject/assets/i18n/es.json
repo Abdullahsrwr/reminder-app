@@ -19,5 +19,12 @@
         "street": "Nombre de la calle:",
         "city": "Ciudad:",
         "province": "Provincia:"
+    },
+
+    "dialogue": {
+        "loc_title": "Tipo de tarea",
+        "lang_title": "Selección de idioma",
+        "location": "¿Te gustaría asociar una ubicación con tu tarea?",
+        "language": "Por favor seleccione su idioma"
     }
 }

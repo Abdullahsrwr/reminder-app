@@ -120,7 +120,7 @@ class _MapPageState extends State<MapPage> {
           ),
         ],
         backgroundColor: Color.fromARGB(255, 0, 0, 0),
-        title: const Text('Hike Tracker'),
+        title: Text(widget.title),
       ),
       body: Stack(
         children: [

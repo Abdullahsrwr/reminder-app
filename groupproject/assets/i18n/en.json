@@ -19,5 +19,12 @@
         "street": "Street Name:",
         "city": "City:",
         "province": "Province:"
+    },
+
+    "dialogue": {
+        "loc_title": "Task Type",
+        "lang_title": "Language Selection",
+        "location": "Would you like to associate a location with your task?",
+        "language": "Please select your language"
     }
 }
