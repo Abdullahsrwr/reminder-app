@@ -29,5 +29,11 @@
         "snackBarTime": "La notificación de recordatorio se establecerá en",
         "snackBarPassed": "La fecha y la hora ya han pasado",
         "snackBarSave": "Guarde la nueva información"
+    },
+
+    "languages": {
+        "english": "Inglés",
+        "spanish": "Español",
+        "french": "Francés"
     }
 }

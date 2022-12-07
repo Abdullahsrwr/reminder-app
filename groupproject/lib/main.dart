@@ -339,7 +339,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Navigator.pop(context);
             });
           },
-          child: Text('English'),
+          child: Text(FlutterI18n.translate(context, "languages.english")),
         ),
         TextButton(
           onPressed: () async {
@@ -349,7 +349,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Navigator.pop(context);
             });
           },
-          child: Text('French'),
+          child: Text(FlutterI18n.translate(context, "languages.french")),
         ),
         TextButton(
           onPressed: () async {
@@ -359,7 +359,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Navigator.pop(context);
             });
           },
-          child: Text('Spanish'),
+          child: Text(FlutterI18n.translate(context, "languages.spanish")),
         ),
       ],
     );

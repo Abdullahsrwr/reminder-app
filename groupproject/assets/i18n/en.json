@@ -29,5 +29,11 @@
         "snackBarTime": "Reminder Notification Will Be Sent At ",
         "snackBarPassed": "Date and Time has already passed",
         "snackBarSave": "Please save the new information"
+    },
+
+    "languages": {
+        "english": "English",
+        "spanish": "Spanish",
+        "french": "French"
     }
 }
