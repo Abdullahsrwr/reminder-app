@@ -186,7 +186,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   }
                 },
                 child: ListTile(
-                  leading: firebaseList[index].streetName == null
+                  leading: firebaseList[index].streetName == null ||
+                          firebaseList[index].streetName == ""
                       ? Icon(Icons.no_transfer_rounded)
                       : Icon(Icons.mode_of_travel_rounded),
                   title: Text(firebaseList[index].eventName!),

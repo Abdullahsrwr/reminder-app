@@ -429,7 +429,7 @@ class _EditPageState extends State<EditPage> {
                   ElevatedButton(
                     onPressed: () async {
                       if (saved == true) {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
