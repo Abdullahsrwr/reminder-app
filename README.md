@@ -8,7 +8,7 @@ Group members (3-5) (no Student IDs, only names and github usernames):
 
 3.  Adyan Reza (AdyanReza)
 
-Contribution Edit from Logs:
+Contribution Edit from Logs: <br />
 Commit fe57b93 - December 4th from Evan Curtis "Charts pages added, schedule datachart updated" - Adyan Reza assisted <br />
 Commit 6691074 - December 4th from Evan Curtis DataTable added, date variable given to taask, tasks can now be viewe… " - Adyan Reza assisted <br />
 Commit ebd5307 - December 6h from Abdullah Sarwar "Snackbar Update" - Adyan Reza assisted <br />
