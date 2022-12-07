@@ -52,6 +52,7 @@ class _EditPageState extends State<EditPage> {
   String? city = '';
   String? province = '';
   int? index;
+  bool saved = false;
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +74,7 @@ class _EditPageState extends State<EditPage> {
   }
 
   Widget _formBuilder(context) {
-    bool saved = false;
+    saved = false;
     DateTime rightNow = DateTime.now();
     eventDate = widget.eventDate;
     title = widget.title;
@@ -420,7 +421,6 @@ class _EditPageState extends State<EditPage> {
                   ElevatedButton(
                     onPressed: () {
                       _notificationLater();
-                      saved = true;
                     },
                     child: Text(
                       FlutterI18n.translate(context, "add_task_field.save"),
@@ -465,6 +465,7 @@ class _EditPageState extends State<EditPage> {
       );
       return;
     } else {
+      saved = true;
       var when = tz.TZDateTime.now(tz.local).add(Duration(seconds: duration));
       await fillFireTaskList();
       index = fireTaskList.length;
