@@ -11,7 +11,6 @@ import '../database/db_utils.dart';
 
 import 'package:flutter_i18n/flutter_i18n.dart';
 
-
 class LocationPage extends StatefulWidget {
   const LocationPage({Key? key, required this.title}) : super(key: key);
 
@@ -44,8 +43,14 @@ class _LocationPageState extends State<LocationPage> {
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(
-          onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(
-            title: FlutterI18n.translate(context, "page_titles.home_page"))));},
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => MyHomePage(
+                        title: FlutterI18n.translate(
+                            context, "page_titles.home_page"))));
+          },
         ),
         title: Text(widget.title),
         actions: [],
@@ -61,184 +66,357 @@ class _LocationPageState extends State<LocationPage> {
   Widget _formBuilder(context) {
     DateTime rightNow = DateTime.now();
     return Form(
-      key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
+        key: _formKey,
+        child: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(FlutterI18n.translate(context, "add_task_field.task")),
-              Expanded(
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: "",
+              Row(
+                children: [
+                  Text(FlutterI18n.translate(context, "add_task_field.task"),
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                ],
+              ),
+              Padding(padding: EdgeInsets.only(bottom: 5)),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                          ),
+                        ),
+                        labelText: "",
+                      ),
+                      onChanged: (value) {
+                        title = value;
+                      },
+                    ),
                   ),
-                  onChanged: (value) {
-                    title = value;
-                  },
-                ),
+                ],
               ),
-            ],
-          ),
-          Row(
-            children: [
-              Text(FlutterI18n.translate(context, "add_task_field.desc")),
-              Expanded(
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: "",
+              Row(
+                children: [
+                  Text(FlutterI18n.translate(context, "add_task_field.desc"),
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                ],
+              ),
+              Padding(padding: EdgeInsets.only(bottom: 5)),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                          ),
+                        ),
+                        labelText: "",
+                      ),
+                      onChanged: (value) {
+                        body = value;
+                      },
+                    ),
                   ),
-                  onChanged: (value) {
-                    body = value;
-                  },
-                ),
+                ],
               ),
-            ],
-          ),
-          Row(
-            children: [
-              Text(FlutterI18n.translate(context, "add_task_field.street_num")),
-              Expanded(
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: "",
+              Padding(padding: EdgeInsets.only(bottom: 5)),
+              Row(
+                children: [
+                  Text(
+                      FlutterI18n.translate(
+                          context, "add_task_field.street_num"),
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                ],
+              ),
+              Padding(padding: EdgeInsets.only(bottom: 5)),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                          ),
+                        ),
+                        labelText: "",
+                      ),
+                      onChanged: (value) {
+                        streetNumber = value;
+                      },
+                    ),
                   ),
-                  onChanged: (value) {
-                    streetNumber = value;
-                  },
-                ),
+                ],
               ),
-            ],
-          ),
-          Row(
-            children: [
-              Text(FlutterI18n.translate(context, "add_task_field.street")),
-              Expanded(
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: "",
+              Padding(padding: EdgeInsets.only(bottom: 5)),
+              Row(
+                children: [
+                  Text(FlutterI18n.translate(context, "add_task_field.street"),
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                ],
+              ),
+              Padding(padding: EdgeInsets.only(bottom: 5)),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                          ),
+                        ),
+                        labelText: "",
+                      ),
+                      onChanged: (value) {
+                        streetName = value;
+                      },
+                    ),
                   ),
-                  onChanged: (value) {
-                    streetName = value;
-                  },
-                ),
+                ],
               ),
-            ],
-          ),
-          Row(
-            children: [
-              Text(FlutterI18n.translate(context, "add_task_field.city")),
-              Expanded(
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: "",
+              Padding(padding: EdgeInsets.only(bottom: 5)),
+              Row(
+                children: [
+                  Text(FlutterI18n.translate(context, "add_task_field.city"),
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                ],
+              ),
+              Padding(padding: EdgeInsets.only(bottom: 5)),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                          ),
+                        ),
+                        labelText: "",
+                      ),
+                      onChanged: (value) {
+                        city = value;
+                      },
+                    ),
                   ),
-                  onChanged: (value) {
-                    city = value;
-                  },
-                ),
+                ],
               ),
-            ],
-          ),
-          Row(
-            children: [
-              Text(FlutterI18n.translate(context, "add_task_field.province")),
-              Expanded(
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: "",
+              Padding(padding: EdgeInsets.only(bottom: 5)),
+              Row(
+                children: [
+                  Text(
+                      FlutterI18n.translate(context, "add_task_field.province"),
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                ],
+              ),
+              Padding(padding: EdgeInsets.only(bottom: 5)),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                          ),
+                        ),
+                        labelText: "",
+                      ),
+                      onChanged: (value) {
+                        province = value;
+                      },
+                    ),
                   ),
-                  onChanged: (value) {
-                    province = value;
-                  },
+                ],
+              ),
+              Padding(padding: EdgeInsets.only(bottom: 5)),
+              Row(
+                children: [
+                  Text(FlutterI18n.translate(context, "add_task_field.date"),
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                ],
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black),
+                  borderRadius: BorderRadius.circular(5),
                 ),
+                child: Row(
+                  children: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Color.fromARGB(250, 250, 250, 255),
+                        backgroundColor: Color.fromARGB(250, 250, 250, 255),
+                        elevation: 0,
+                      ),
+                      child: Icon(
+                        Icons.calendar_today,
+                        color: Colors.black,
+                        size: 20,
+                      ),
+                      onPressed: () {
+                        showDatePicker(
+                          context: context,
+                          firstDate: rightNow,
+                          lastDate: DateTime(2100),
+                          initialDate: rightNow,
+                        ).then((value) {
+                          setState(() {
+                            _eventDate = DateTime(
+                              value!.year,
+                              value.month,
+                              value.day,
+                              _eventDate.hour,
+                              _eventDate.minute,
+                              _eventDate.second,
+                            );
+                          });
+                        });
+                      },
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10.0),
+                    ),
+                    Text(_toDateString(_eventDate),
+                        style: TextStyle(
+                          fontSize: 15,
+                        )),
+                  ],
+                ),
+              ),
+              Padding(padding: EdgeInsets.only(bottom: 5)),
+              Row(
+                children: [
+                  Text(FlutterI18n.translate(context, "add_task_field.time"),
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                ],
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Row(
+                  children: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Color.fromARGB(250, 250, 250, 255),
+                        backgroundColor: Color.fromARGB(250, 250, 250, 255),
+                        elevation: 0,
+                      ),
+                      onPressed: () {
+                        showTimePicker(
+                          context: context,
+                          initialTime: TimeOfDay(
+                              hour: rightNow.hour, minute: rightNow.minute),
+                        ).then((value) {
+                          setState(() {
+                            _eventDate = DateTime(
+                              _eventDate.year,
+                              _eventDate.month,
+                              _eventDate.day,
+                              value!.hour,
+                              value.minute,
+                            );
+                          });
+                        });
+                      },
+                      child: Icon(
+                        Icons.alarm,
+                        color: Colors.black,
+                        size: 20,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10.0),
+                    ),
+                    Text(_toTimeString(_eventDate),
+                        style: TextStyle(fontSize: 15)),
+                  ],
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: _notificationLater,
+                    child: Text(
+                      FlutterI18n.translate(context, "add_task_field.save"),
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () async {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  MyHomePage(title: "InaBit")));
+                    },
+                    child: Text(
+                      FlutterI18n.translate(context, "add_task_field.back"),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
-          Container(
-            child: Row(
-              children: [
-                ElevatedButton(
-                  child: Text(FlutterI18n.translate(context, "add_task_field.date")),
-                  onPressed: () {
-                    showDatePicker(
-                      context: context,
-                      firstDate: rightNow,
-                      lastDate: DateTime(2100),
-                      initialDate: rightNow,
-                    ).then((value) {
-                      setState(() {
-                        _eventDate = DateTime(
-                          value!.year,
-                          value.month,
-                          value.day,
-                          _eventDate.hour,
-                          _eventDate.minute,
-                          _eventDate.second,
-                        );
-                      });
-                    });
-                  },
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10.0),
-                ),
-                Text(_toDateString(_eventDate)),
-              ],
-            ),
-          ),
-          Container(
-            child: Row(
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    showTimePicker(
-                      context: context,
-                      initialTime: TimeOfDay(
-                          hour: rightNow.hour, minute: rightNow.minute),
-                    ).then((value) {
-                      setState(() {
-                        _eventDate = DateTime(
-                          _eventDate.year,
-                          _eventDate.month,
-                          _eventDate.day,
-                          value!.hour,
-                          value.minute,
-                        );
-                      });
-                    });
-                  },
-                  child: Text(FlutterI18n.translate(context, "add_task_field.time")),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10.0),
-                ),
-                Text(_toTimeString(_eventDate)),
-              ],
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ElevatedButton(
-                onPressed: _notificationLater,
-                child: Text(
-                  FlutterI18n.translate(context, "add_task_field.save"),
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () async {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(title: "Home Page")));
-                },
-                child: Text(
-                  FlutterI18n.translate(context, "add_task_field.back"),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+        ));
   }
 
   Future _notificationLater() async {

@@ -1,6 +1,6 @@
 {
     "page_titles": {
-        "home_page": "Página de inicio",
+        "home_page": "InaBit",
         "schedule_page": "Calendario",
         "chart_page": "La semana que viene",
         "task_add": "Agregar tarea",
@@ -9,16 +9,16 @@
     },
 
     "add_task_field": {
-        "task": "Tarea:",
-        "desc": "Descripción:",
+        "task": "Tarea",
+        "desc": "Descripción",
         "date": "Fecha",
         "time": "Tiempo",
         "save": "Ahorrar",
         "back": "Regresa",
-        "street_num": "Número de calle:",
-        "street": "Nombre de la calle:",
-        "city": "Ciudad:",
-        "province": "Provincia:"
+        "street_num": "Número de calle",
+        "street": "Nombre de la calle",
+        "city": "Ciudad",
+        "province": "Provincia"
     },
 
     "dialogue": {

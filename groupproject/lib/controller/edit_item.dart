@@ -8,30 +8,49 @@ import 'notifications.dart';
 import '../models/task.dart';
 import '../models/task_model.dart';
 import '../database/db_utils.dart';
-import '../database/firebase_manager.dart';
 
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:flutter_i18n/flutter_i18n_delegate.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
-class AddNoti extends StatefulWidget {
-  const AddNoti({Key? key, required this.title}) : super(key: key);
+class EditPage extends StatefulWidget {
+  const EditPage({
+    Key? key,
+    required this.title,
+    required this.eventDate,
+    required this.body,
+    required this.streetNumber,
+    required this.streetName,
+    required this.city,
+    required this.province,
+  }) : super(key: key);
 
   final String title;
+  final DateTime eventDate;
+  final String body;
+  final String streetNumber;
+  final String streetName;
+  final String city;
+  final String province;
 
   @override
-  State<AddNoti> createState() => _AddNotiState();
+  State<EditPage> createState() => _EditPageState();
 }
 
-class _AddNotiState extends State<AddNoti> {
+class _EditPageState extends State<EditPage> {
+  @override
+  // TODO: implement widget
+  EditPage get widget => super.widget;
   final _formKey = GlobalKey<FormState>();
 
   final _notifications = Notifications();
 
-  DateTime _eventDate = DateTime.now();
-  String? title = '';
+  DateTime eventDate = DateTime.now();
+  String title = '';
   String? body = '';
   String? payload = '';
+  String? streetNumber = '';
+  String? streetName = '';
+  String? city = '';
+  String? province = '';
   int? index;
 
   @override
@@ -41,26 +60,28 @@ class _AddNotiState extends State<AddNoti> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => MyHomePage(
-                        title: FlutterI18n.translate(context, "Home Page"))));
-          },
-        ),
+        automaticallyImplyLeading: false,
         title: Text(widget.title),
         actions: [],
       ),
-      body: Builder(
-        builder: _formBuilder,
+      body: SingleChildScrollView(
+        child: Builder(
+          builder: _formBuilder,
+        ),
       ),
     );
   }
 
   Widget _formBuilder(context) {
+    bool saved = false;
     DateTime rightNow = DateTime.now();
+    eventDate = widget.eventDate;
+    title = widget.title;
+    body = widget.body;
+    streetNumber = widget.streetNumber;
+    streetName = widget.streetName;
+    city = widget.city;
+    province = widget.province;
     return Form(
         key: _formKey,
         child: Padding(
@@ -80,6 +101,7 @@ class _AddNotiState extends State<AddNoti> {
                 children: [
                   Expanded(
                     child: TextFormField(
+                      initialValue: title,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -114,6 +136,7 @@ class _AddNotiState extends State<AddNoti> {
                 children: [
                   Expanded(
                     child: TextFormField(
+                      initialValue: body,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -131,6 +154,153 @@ class _AddNotiState extends State<AddNoti> {
                       ),
                       onChanged: (value) {
                         body = value;
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              Padding(padding: EdgeInsets.only(bottom: 5)),
+              Row(
+                children: [
+                  Text(
+                      FlutterI18n.translate(
+                          context, "add_task_field.street_num"),
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                ],
+              ),
+              Padding(padding: EdgeInsets.only(bottom: 5)),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      initialValue: streetNumber,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                          ),
+                        ),
+                        labelText: "",
+                      ),
+                      onChanged: (value) {
+                        streetNumber = value;
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              Padding(padding: EdgeInsets.only(bottom: 5)),
+              Row(
+                children: [
+                  Text(FlutterI18n.translate(context, "add_task_field.street"),
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                ],
+              ),
+              Padding(padding: EdgeInsets.only(bottom: 5)),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      initialValue: streetName,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                          ),
+                        ),
+                        labelText: "",
+                      ),
+                      onChanged: (value) {
+                        streetName = value;
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              Padding(padding: EdgeInsets.only(bottom: 5)),
+              Row(
+                children: [
+                  Text(FlutterI18n.translate(context, "add_task_field.city"),
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                ],
+              ),
+              Padding(padding: EdgeInsets.only(bottom: 5)),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      initialValue: city,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                          ),
+                        ),
+                        labelText: "",
+                      ),
+                      onChanged: (value) {
+                        city = value;
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              Padding(padding: EdgeInsets.only(bottom: 5)),
+              Row(
+                children: [
+                  Text(
+                      FlutterI18n.translate(context, "add_task_field.province"),
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                ],
+              ),
+              Padding(padding: EdgeInsets.only(bottom: 5)),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      initialValue: province,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                          ),
+                        ),
+                        labelText: "",
+                      ),
+                      onChanged: (value) {
+                        province = value;
                       },
                     ),
                   ),
@@ -170,13 +340,13 @@ class _AddNotiState extends State<AddNoti> {
                           initialDate: rightNow,
                         ).then((value) {
                           setState(() {
-                            _eventDate = DateTime(
+                            eventDate = DateTime(
                               value!.year,
                               value.month,
                               value.day,
-                              _eventDate.hour,
-                              _eventDate.minute,
-                              _eventDate.second,
+                              eventDate.hour,
+                              eventDate.minute,
+                              eventDate.second,
                             );
                           });
                         });
@@ -185,8 +355,10 @@ class _AddNotiState extends State<AddNoti> {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10.0),
                     ),
-                    Text(_toDateString(_eventDate),
-                        style: TextStyle(fontSize: 15)),
+                    Text(_toDateString(eventDate),
+                        style: TextStyle(
+                          fontSize: 15,
+                        )),
                   ],
                 ),
               ),
@@ -218,10 +390,10 @@ class _AddNotiState extends State<AddNoti> {
                               hour: rightNow.hour, minute: rightNow.minute),
                         ).then((value) {
                           setState(() {
-                            _eventDate = DateTime(
-                              _eventDate.year,
-                              _eventDate.month,
-                              _eventDate.day,
+                            eventDate = DateTime(
+                              eventDate.year,
+                              eventDate.month,
+                              eventDate.day,
                               value!.hour,
                               value.minute,
                             );
@@ -237,7 +409,7 @@ class _AddNotiState extends State<AddNoti> {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10.0),
                     ),
-                    Text(_toTimeString(_eventDate),
+                    Text(_toTimeString(eventDate),
                         style: TextStyle(fontSize: 15)),
                   ],
                 ),
@@ -246,18 +418,29 @@ class _AddNotiState extends State<AddNoti> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton(
-                    onPressed: _notificationLater,
+                    onPressed: () {
+                      _notificationLater();
+                      saved = true;
+                    },
                     child: Text(
                       FlutterI18n.translate(context, "add_task_field.save"),
                     ),
                   ),
                   ElevatedButton(
                     onPressed: () async {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  MyHomePage(title: "InaBit")));
+                      if (saved == true) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    MyHomePage(title: "InaBit")));
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Please Save the new Information'),
+                          ),
+                        );
+                      }
                     },
                     child: Text(
                       FlutterI18n.translate(context, "add_task_field.back"),
@@ -271,7 +454,7 @@ class _AddNotiState extends State<AddNoti> {
   }
 
   Future _notificationLater() async {
-    int duration = _eventDate.difference(DateTime.now()).inSeconds;
+    int duration = eventDate.difference(DateTime.now()).inSeconds;
     if (duration < 0) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -288,7 +471,11 @@ class _AddNotiState extends State<AddNoti> {
           id: index,
           eventName: title,
           eventDesc: body,
-          date: _eventDate.millisecondsSinceEpoch);
+          date: eventDate.millisecondsSinceEpoch,
+          streetNumber: streetNumber,
+          streetName: streetName,
+          city: city,
+          province: province);
       TaskModel().insertTask(newTask);
       fireTaskList.add(newTask);
 
@@ -296,7 +483,7 @@ class _AddNotiState extends State<AddNoti> {
 
       var snackBar = SnackBar(
         content: Text(
-          "Reminder Notification $index Will Be Sent At $_eventDate",
+          "Reminder Notification Will Be Sent At $eventDate",
         ),
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);

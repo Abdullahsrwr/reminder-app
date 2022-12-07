@@ -48,6 +48,8 @@ class _showChartState extends State<showChart> {
                   id: "Tasks per day",
                   domainFn: (task, _) => task.dayName,
                   measureFn: (task, _) => task.numPerDay,
+                  colorFn: (_, __) =>
+                      charts.MaterialPalette.purple.shadeDefault,
                   data: taskDataList)
             ])),
       ),
