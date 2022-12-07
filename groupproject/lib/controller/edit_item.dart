@@ -53,6 +53,8 @@ class _EditPageState extends State<EditPage> {
   String? province = '';
   int? index;
   bool saved = false;
+  late DateTime _eventDate;
+  bool first = true;
 
   @override
   Widget build(BuildContext context) {
@@ -74,9 +76,14 @@ class _EditPageState extends State<EditPage> {
   }
 
   Widget _formBuilder(context) {
+    if (first) {
+      first = false;
+      eventDate = widget.eventDate;
+    } else {
+      eventDate = _eventDate;
+    }
     saved = false;
     DateTime rightNow = DateTime.now();
-    eventDate = widget.eventDate;
     title = widget.title;
     body = widget.body;
     streetNumber = widget.streetNumber;
@@ -349,6 +356,14 @@ class _EditPageState extends State<EditPage> {
                               eventDate.minute,
                               eventDate.second,
                             );
+                            _eventDate = DateTime(
+                              value!.year,
+                              value.month,
+                              value.day,
+                              eventDate.hour,
+                              eventDate.minute,
+                              eventDate.second,
+                            );
                           });
                         });
                       },
@@ -392,6 +407,13 @@ class _EditPageState extends State<EditPage> {
                         ).then((value) {
                           setState(() {
                             eventDate = DateTime(
+                              eventDate.year,
+                              eventDate.month,
+                              eventDate.day,
+                              value!.hour,
+                              value.minute,
+                            );
+                            _eventDate = DateTime(
                               eventDate.year,
                               eventDate.month,
                               eventDate.day,
