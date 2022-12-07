@@ -113,11 +113,6 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Text(FlutterI18n.translate(context, "page_titles.home_page")),
           actions: [
             IconButton(
-                onPressed: () {
-                  setState(() {});
-                },
-                icon: Icon(Icons.refresh)),
-            IconButton(
               onPressed: () {
                 Navigator.push(
                   context,
@@ -144,18 +139,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
               },
               icon: Icon(Icons.bar_chart),
-            ),
-            IconButton(
-              icon: const Icon(Icons.delete_forever),
-              onPressed: () async {
-                await Notifications().cancelAllNotifications();
-                await removeAllFireDB();
-                await TaskModel().deleteAllTasks();
-                await fillFireTaskList();
-                await Future.delayed(Duration(seconds: 1), () {
-                  setState(() {});
-                });
-              },
             ),
           ],
         ),
