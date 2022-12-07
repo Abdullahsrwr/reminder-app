@@ -275,7 +275,8 @@ class _AddNotiState extends State<AddNoti> {
     if (duration < 0) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Date and Time has already passed'),
+          content:
+              Text(FlutterI18n.translate(context, "dialogue.snackBarPassed")),
         ),
       );
       return;
@@ -294,9 +295,11 @@ class _AddNotiState extends State<AddNoti> {
 
       await _notifications.sendNotificationLater(title!, body!, payload!, when);
 
+      String translatedDate =
+          FlutterI18n.translate(context, "dialogue.snackBarTime");
       var snackBar = SnackBar(
         content: Text(
-          "Reminder Notification $index Will Be Sent At $_eventDate",
+          "$translatedDate $_eventDate",
         ),
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);

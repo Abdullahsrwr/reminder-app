@@ -25,6 +25,9 @@
         "loc_title": "Tipo de tarea",
         "lang_title": "Selección de idioma",
         "location": "¿Te gustaría asociar una ubicación con tu tarea?",
-        "language": "Por favor seleccione su idioma"
+        "language": "Por favor seleccione su idioma",
+        "snackBarTime": "La notificación de recordatorio se establecerá en",
+        "snackBarPassed": "La fecha y la hora ya han pasado",
+        "snackBarSave": "Guarde la nueva información"
     }
 }

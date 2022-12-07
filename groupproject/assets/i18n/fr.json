@@ -25,6 +25,9 @@
         "loc_title": "Type de tâche",
         "lang_title": "Sélection de la langue",
         "location": "Souhaitez-vous associer un lieu à votre tâche ?",
-        "language": "Veuillez sélectionner votre langue"
+        "language": "Veuillez sélectionner votre langue",
+        "snackBarTime": "La notification de rappel sera définie sur",
+        "snackBarPassed": "La date et l'heure sont déjà passées",
+        "snackBarSave": "Veuillez enregistrer les nouvelles informations"
     }
 }

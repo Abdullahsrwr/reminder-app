@@ -424,7 +424,8 @@ class _LocationPageState extends State<LocationPage> {
     if (duration < 0) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Date and Time has already passed'),
+          content:
+              Text(FlutterI18n.translate(context, "dialogue.snackBarPassed")),
         ),
       );
       return;
@@ -447,9 +448,11 @@ class _LocationPageState extends State<LocationPage> {
 
       await _notifications.sendNotificationLater(title!, body!, payload!, when);
 
+      String translatedDate =
+          FlutterI18n.translate(context, "dialogue.snackBarTime");
       var snackBar = SnackBar(
         content: Text(
-          "Reminder Notification Will Be Sent At $_eventDate",
+          "$translatedDate $_eventDate",
         ),
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);

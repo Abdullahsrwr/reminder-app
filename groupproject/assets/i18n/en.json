@@ -25,6 +25,9 @@
         "loc_title": "Task Type",
         "lang_title": "Language Selection",
         "location": "Would you like to associate a location with your task?",
-        "language": "Please select your language"
+        "language": "Please select your language",
+        "snackBarTime": "Reminder Notification Will Be Sent At ",
+        "snackBarPassed": "Date and Time has already passed",
+        "snackBarSave": "Please save the new information"
     }
 }

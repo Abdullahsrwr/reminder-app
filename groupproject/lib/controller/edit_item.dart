@@ -437,7 +437,8 @@ class _EditPageState extends State<EditPage> {
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text('Please Save the new Information'),
+                            content: Text(FlutterI18n.translate(
+                                context, "dialogue.snackBarSave")),
                           ),
                         );
                       }
@@ -458,7 +459,8 @@ class _EditPageState extends State<EditPage> {
     if (duration < 0) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Date and Time has already passed'),
+          content:
+              Text(FlutterI18n.translate(context, "dialogue.snackBarPassed")),
         ),
       );
       return;
@@ -480,10 +482,11 @@ class _EditPageState extends State<EditPage> {
       fireTaskList.add(newTask);
 
       await _notifications.sendNotificationLater(title!, body!, payload!, when);
-
+      String translatedDate =
+          FlutterI18n.translate(context, "dialogue.snackBarTime");
       var snackBar = SnackBar(
         content: Text(
-          "Reminder Notification Will Be Sent At $eventDate",
+          "$translatedDate $eventDate",
         ),
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
